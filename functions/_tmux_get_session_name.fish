@@ -8,7 +8,7 @@ function _tmux_get_session_name
     else
         # Create a new session with a unique name based on the terminal
         set stamp (date +'%s')
-        set -f tmux_session_name "$TERM-$stamp" # Append timestamp to the session name for uniqueness
+        set -f tmux_session_name "$TERM_PROGRAM-$stamp" # Append timestamp to the session name for uniqueness
     end
 
     echo $tmux_session_name

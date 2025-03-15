@@ -7,6 +7,11 @@ if set -q TMUX
     return
 end
 
+# Things break in VS Code if tmux is started.
+if test "$TERM_PROGRAM" = "vscode"
+    return
+end
+
 set -l tmux_session_name (_tmux_get_session_name)
 
 # Check if the session already exists before creating a new one
