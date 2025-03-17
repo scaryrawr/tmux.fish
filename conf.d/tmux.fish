@@ -2,13 +2,17 @@ if not status is-interactive
     return
 end
 
+if not test $TMUX_AUTOSTART
+    return
+end
+
 # Don't try to start tmux if we're already inside a tmux session
 if set -q TMUX
     return
 end
 
 # Things break in VS Code if tmux is started.
-if test "$TERM_PROGRAM" = "vscode"
+if test "$TERM_PROGRAM" = vscode
     return
 end
 
