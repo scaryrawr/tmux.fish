@@ -7,12 +7,7 @@ if not test $TMUX_AUTOSTART
 end
 
 # Don't try to start tmux if we're already inside a tmux session
-if set -q TMUX
-    return
-end
-
-# Things break in VS Code if tmux is started.
-if test "$TERM_PROGRAM" = vscode
+if test "$TERM_PROGRAM" = "tmux"
     return
 end
 
@@ -23,7 +18,4 @@ if not tmux has-session -t "$tmux_session_name" 2>/dev/null
     tmux new-session -d -s "$tmux_session_name"
 end
 
-tmux attach-session -t "$tmux_session_name"
-
-# Kill the fish session so exiting tmux exists fish
-kill $fish_pid
+tmux attach-session -t "$tmux_session_name" 1>/dev/null && kill $fish_pid
