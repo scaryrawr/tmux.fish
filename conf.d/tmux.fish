@@ -1,15 +1,11 @@
-if not status is-interactive
-    return
-end
+# Not needed in non-interactive shells
+status is-interactive || exit
 
-if not test $TMUX_AUTOSTART
-    return
-end
+# Not configure to autostart
+test "$TMUX_AUTOSTART" = true || exit
 
 # Don't try to start tmux if we're already inside a tmux session
-if test "$TERM_PROGRAM" = "tmux"
-    return
-end
+test "$TERM_PROGRAM" = "tmux" && exit
 
 set -l tmux_session_name (_tmux_get_session_name)
 
