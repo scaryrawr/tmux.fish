@@ -3,7 +3,7 @@ function _tmux_get_session_name
     set -f existing_sessions (_tmux_find_detached_session)
 
     # If we have existing sessions, use the first one
-    if test -n "$existing_sessions"
+    if test (count $existing_sessions) -gt 0
         set -f tmux_session_name $existing_sessions[1]
     else
         # Create a new session with a unique name based on the terminal and timestamp
