@@ -5,16 +5,9 @@ status is-interactive || exit
 test "$TMUX_AUTOSTART" = true || exit
 
 # Don't try to start tmux if we're already inside a tmux session
-if test "$TERM_PROGRAM" = "tmux"
+if _tmux_is_inside
   # but... do try to set the environment variables
-  for variables in (tmux showenv -t (tmux display-message -p '#S') | grep '=')
-    set -l name (echo $variables | cut -d= -f1)
-    set -l value (echo $variables | cut -d= -f2-)
-
-    # Set globally for this session, but not universal since each session can have different values
-    set -gx $name $value
-  end
-
+  _tmux_load_env
   exit
 end
 
@@ -25,8 +18,8 @@ if not tmux has-session -t "$tmux_session_name" 2>/dev/null
     tmux new-session -d -s "$tmux_session_name"
 end
 
+# VS Code has some special environment variables that need to be set to use code command in tmux in codespaces
 if test "$TERM_PROGRAM" = "vscode"
-  # VS Code has some special environment variables that need to be set to use code command in tmux in codespaces
   for line in (env | grep VSCODE)
     set -l name (echo $line | cut -d= -f1)
     set -l value (echo $line | cut -d= -f2-)
