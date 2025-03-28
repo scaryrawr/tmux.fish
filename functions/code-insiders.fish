@@ -4,5 +4,10 @@ function code-insiders --wraps code-insiders
     _tmux_load_env
   end
 
-  env -u TMUX -u TMUX_PANE command code-insiders $argv
+  # If we're in VS Code, we don't need to strip the TMUX variables
+  if not test "$VSCODE_INJECTION" = 1
+    env -u TMUX -u TMUX_PANE command code-insiders $argv
+  else
+    command code-insiders $argv
+  end
 end

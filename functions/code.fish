@@ -4,5 +4,10 @@ function code --wraps code
     _tmux_load_env
   end
 
-  env -u TMUX -u TMUX_PANE command code $argv
+  # If we're in VS Code, we don't need to strip the TMUX variables
+  if not test "$VSCODE_INJECTION" = 1
+    env -u TMUX -u TMUX_PANE command code $argv
+  else
+    command code $argv
+  end
 end
