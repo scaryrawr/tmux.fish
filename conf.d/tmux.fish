@@ -12,6 +12,10 @@ if _tmux_is_inside
 end
 
 set -l tmux_session_name (_tmux_get_session_name)
+if test -z "$tmux_session_name"
+    # If we can't get a session name, exit
+    exit
+end
 
 # Check if the session already exists before creating a new one
 if not tmux has-session -t "$tmux_session_name" 2>/dev/null
