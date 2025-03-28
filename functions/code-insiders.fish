@@ -4,5 +4,5 @@ function code-insiders --wraps code-insiders
     _tmux_load_env
   end
 
-  command code-insiders $argv
+  env -u TMUX -u TMUX_PANE command code-insiders $argv
 end

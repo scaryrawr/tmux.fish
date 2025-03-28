@@ -4,5 +4,5 @@ function code --wraps code
     _tmux_load_env
   end
 
-  command code $argv
+  env -u TMUX -u TMUX_PANE command code $argv
 end
