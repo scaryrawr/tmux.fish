@@ -11,7 +11,12 @@ function _tmux_get_session_name
         if test -z "$term_id"
             return
         end
-        set -f tmux_session_name "$term_id"
+        for i in (seq 1 100)
+            set -f tmux_session_name "$term_id-$i"
+            if not tmux has-session -t "$tmux_session_name" 2>/dev/null
+                break
+            end
+        end
     end
 
     echo $tmux_session_name
