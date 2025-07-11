@@ -35,7 +35,8 @@ end
 
 tmux attach-session -t "$tmux_session_name" 1>/dev/null
 
-# Set TMUX_AUTOEXIT to TMUX_AUTOSTART if not set
+# TMUX_AUTOEXIT controls whether the fish process should automatically exit after attaching to a tmux session.
+# If not set, it inherits the value of TMUX_AUTOSTART.
 if not set -q TMUX_AUTOEXIT
     set -g TMUX_AUTOEXIT $TMUX_AUTOSTART
 end
