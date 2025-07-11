@@ -1,8 +1,19 @@
 # Not needed in non-interactive shells
 status is-interactive || exit
 
-# Not configure to autostart
-test "$TMUX_AUTOSTART" = true || exit
+# Not configured to autostart unless TMUX_AUTOSTART or TMUX_SSHAUTO_START+SSH
+set -l _tmux_should_autostart 0
+if test "$TMUX_AUTOSTART" = true
+    set _tmux_should_autostart 1
+else if test "$TMUX_SSHAUTO_START" = true
+    if set -q SSH_CONNECTION; or set -q SSH_CLIENT; or set -q SSH_TTY
+        set _tmux_should_autostart 1
+    end
+end
+
+if test $_tmux_should_autostart -ne 1
+    exit
+end
 
 # Don't try to start tmux if we're already inside a tmux session
 if _tmux_is_inside
