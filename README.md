@@ -38,6 +38,8 @@ The following environment variables control tmux.fish startup behavior:
 
 - **TMUX**: This variable is set by tmux itself when you are already inside a tmux session. tmux.fish checks this to avoid nesting tmux sessions.
 
+- **TMUX_AUTOEXIT**: If set to `true`, tmux.fish will automatically exit the current fish process after attaching to a tmux session. By default, it inherits the value of `TMUX_AUTOSTART` if not explicitly set. This is useful for ensuring that only the tmux session remains active in the terminal, preventing duplicate shells.
+
 
 You can set or unset these variables using the `set` command in fish, for example:
 
