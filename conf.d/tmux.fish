@@ -33,4 +33,14 @@ if not tmux has-session -t "$tmux_session_name" 2>/dev/null
     tmux new-session -d -s "$tmux_session_name"
 end
 
-tmux attach-session -t "$tmux_session_name" 1>/dev/null && kill $fish_pid
+tmux attach-session -t "$tmux_session_name" 1>/dev/null
+
+# Set TMUX_AUTOEXIT to TMUX_AUTOSTART if not set
+if not set -q TMUX_AUTOEXIT
+    set -g TMUX_AUTOEXIT $TMUX_AUTOSTART
+end
+
+# Only kill the fish process if TMUX_AUTOEXIT is true
+if test "$TMUX_AUTOEXIT" = true
+    kill $fish_pid
+end
